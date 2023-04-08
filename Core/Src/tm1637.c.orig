@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include"tm1637.h"
+#include "i2c.h"
+
+//hi2c是一个结构体指针，它包含了特定I2C设备的配置信息
+//目标器件的地址，七位地址必须左对产
+//目标器件的目标寄存器地址
+//目标器件内部寄存器地址数据长度
+//一个8位的指针，指向待写的数据
+//待传数据的数量
+//等待时间
+//void TM1637_Data_Cmd(unsigned char Data11)
+//{
+//	HAL_I2C_Mem_Write(&hi2c1, 0x00, 0x44, 0x08, &Data11, 1, 1000);
+////	HAL_I2C_Mem_Write(&hi2c1, 0x00, 0x40, 0x08, &Data11, 1, 1000);
+//}
+//void TM1637_Display_cmd(unsigned char Data22)
+//{
+//	HAL_I2C_Mem_Write(&hi2c1, 0x00, 0x40, 0x08, &Data22, 1, 1000);
+////	HAL_I2C_Mem_Write(&hi2c1, 0x00, 0x80, 0x08, &Data22, 1, 1000);
+//}
+//void TM1637_Add_cmd(unsigned char Data33)
+//{
+//	HAL_I2C_Mem_Write(&hi2c1, 0x00, 0x68, 0x08, &Data33, 1, 1000);
+////	HAL_I2C_Mem_Write(&hi2c1, 0x00, 0xC0, 0x08, &Data33, 1, 1000);
+//}
+void Delay_us(unsigned int i) //nus 延时
+{
+for(;i>0;i--)
+_nop_();
+}
+void I2CStart(void) //1637 开始
+{
+clk = 1;
+dio = 1;
+Delay_us(2);
+dio = 0;
+}
+void I2Cask(void) //1637 应答
+{
+clk = 0;
+Delay_us(5); //在第八个时钟下降沿之后延时 5us，开始判断 ACK 信号
+while(dio);
+clk = 1;
+Delay_us(2);
+clk=0;
+}
+void I2CStop(void)
+// 1637 停止
+{
+clk = 0;
+Delay_us(2);
+dio = 0;
+Delay_us(2);
+clk = 1;
+Delay_us(2);
+dio = 1;
+}
+void I2CWrByte(unsigned char oneByte) //写一个字节
+{
+unsigned char i;
+for(i=0;i<8;i++)
+{
+clk = 0;
+if(oneByte&0x01)
+//低位在前
+{
+dio = 1;
+}
+else
+{
+dio = 0;
+}
+Delay_us(3);
+oneByte=oneByte>>1;
+clk=1;
+Delay_us(3);
+}
+}
+
+

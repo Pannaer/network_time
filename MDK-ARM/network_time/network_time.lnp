@@ -1,0 +1,27 @@
+--cpu Cortex-M3
+"network_time\startup_stm32f103xb.o"
+"network_time\tm1637.o"
+"network_time\main.o"
+"network_time\gpio.o"
+"network_time\usart.o"
+"network_time\stm32f1xx_it.o"
+"network_time\stm32f1xx_hal_msp.o"
+"network_time\stm32f1xx_hal_gpio_ex.o"
+"network_time\stm32f1xx_hal_tim.o"
+"network_time\stm32f1xx_hal_tim_ex.o"
+"network_time\stm32f1xx_hal_uart.o"
+"network_time\stm32f1xx_hal.o"
+"network_time\stm32f1xx_hal_rcc.o"
+"network_time\stm32f1xx_hal_rcc_ex.o"
+"network_time\stm32f1xx_hal_gpio.o"
+"network_time\stm32f1xx_hal_dma.o"
+"network_time\stm32f1xx_hal_cortex.o"
+"network_time\stm32f1xx_hal_pwr.o"
+"network_time\stm32f1xx_hal_flash.o"
+"network_time\stm32f1xx_hal_flash_ex.o"
+"network_time\stm32f1xx_hal_exti.o"
+"network_time\system_stm32f1xx.o"
+--library_type=microlib --strict --scatter "network_time\network_time.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "network_time.map" -o network_time\network_time.axf
